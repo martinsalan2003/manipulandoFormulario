@@ -18,16 +18,18 @@ Atualmente, no meu trabalho como desenvolvedor front-end, tenho utilizado as tec
           </p>
 
            <blockquote className="mt-6 border-l-2 pl-6 italic text-sm">
-              Este projeto realiza a manipulação de dados e retorna as informações necessárias para executar uma requisição HTTP ou atender outras demandas da sua aplicação.
+Este projeto realiza a manipulação de dados e retorna as informações necessárias para executar uma requisição HTTP ou atender outras demandas da sua aplicação. Para fins de demonstração e testes, os dados processados podem ser visualizados diretamente no console do navegador.
           </blockquote>
 
-          <div className="montserrat flex flex-wrap justify-center gap-2">
+          <div className="montserrat flex flex-wrap justify-center gap-4">
             <Badge variant="outline">React Hook Form</Badge>
             <Badge variant="default">TypeScript</Badge>
             <Badge variant="outline">Next.js</Badge>
             <Badge variant="default">Zod</Badge>
             <Badge variant="outline">Tailwind CSS</Badge>
             <Badge variant="default">ShadCN UI</Badge>
+            <Badge variant="outline">FontAwsome</Badge>
+            <Badge variant="default">UnDraw</Badge>
           </div>
 
           <div className="text-center mt-6 space-y-2">
