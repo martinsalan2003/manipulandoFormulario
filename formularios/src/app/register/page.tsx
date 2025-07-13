@@ -23,12 +23,15 @@ const schemaCadastro = z.object({
   sobrenome: z.string().min(1, "Sobrenome é obrigatório"),
   email: z.string().email("Email inválido"),
   usuario: z.string().min(3, "Usuário deve ter no mínimo 3 caracteres"),
-  sexo: z.enum(["Homem", "Mulher", "Outro"], "Sexo é obrigatório"),
+  sexo: z
+    .string()
+    .nonempty("Sexo é obrigatório")
+    .refine(val => ["Homem", "Mulher", "Outro"].includes(val), "Sexo inválido"),
   senha: z.string().min(8, "Senha deve ter no mínimo 8 caracteres"),
   confirmarSenha: z.string().min(8, "Confirmação de senha deve ter no mínimo 8 caracteres"),
 }).refine(data => data.senha === data.confirmarSenha, {
   message: "As senhas não conferem",
-  path: ["confirmarSenha"], 
+  path: ["confirmarSenha"],
 });
 
 type CadastroData = z.infer<typeof schemaCadastro>;
@@ -37,6 +40,15 @@ export default function Register() {
 
   const { control, handleSubmit, formState: { errors } } = useForm<CadastroData>({
     resolver: zodResolver(schemaCadastro),
+    defaultValues: {
+      nome: "",
+      sobrenome: "",
+      email: "",
+      usuario: "",
+      sexo: "",       // começa vazio
+      senha: "",
+      confirmarSenha: "",
+    },
   });
 
   function retornarDados(dados: CadastroData) {
@@ -57,7 +69,6 @@ export default function Register() {
               <Controller
                 name="nome"
                 control={control}
-                defaultValue=""
                 render={({ field }) => <Input placeholder="Nome" className="mt-1" type="text" {...field} />}
               />
               {errors.nome && <span className="text-red-600 text-xs">{errors.nome.message}</span>}
@@ -68,7 +79,6 @@ export default function Register() {
               <Controller
                 name="sobrenome"
                 control={control}
-                defaultValue=""
                 render={({ field }) => <Input placeholder="Sobrenome" className="mt-1" type="text" {...field} />}
               />
               {errors.sobrenome && <span className="text-red-600 text-xs">{errors.sobrenome.message}</span>}
@@ -80,7 +90,6 @@ export default function Register() {
             <Controller
               name="email"
               control={control}
-              defaultValue=""
               render={({ field }) => <Input placeholder="Email" className="mt-1" type="email" {...field} />}
             />
             {errors.email && <span className="text-red-600 text-xs">{errors.email.message}</span>}
@@ -91,7 +100,6 @@ export default function Register() {
             <Controller
               name="usuario"
               control={control}
-              defaultValue=""
               render={({ field }) => <Input placeholder="Nome de usuário" className="mt-1" type="text" {...field} />}
             />
             {errors.usuario && <span className="text-red-600 text-xs">{errors.usuario.message}</span>}
@@ -102,7 +110,6 @@ export default function Register() {
             <Controller
               name="sexo"
               control={control}
-              defaultValue=""
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value} >
                   <SelectTrigger className="w-full">
@@ -127,7 +134,6 @@ export default function Register() {
               <Controller
                 name="senha"
                 control={control}
-                defaultValue=""
                 render={({ field }) => <Input placeholder="Senha" className="mt-1" type="password" {...field} />}
               />
               {errors.senha && <span className="text-red-600 text-xs">{errors.senha.message}</span>}
@@ -138,7 +144,6 @@ export default function Register() {
               <Controller
                 name="confirmarSenha"
                 control={control}
-                defaultValue=""
                 render={({ field }) => <Input placeholder="Confirmar Senha" className="mt-1" type="password" {...field} />}
               />
               {errors.confirmarSenha && <span className="text-red-600 text-xs">{errors.confirmarSenha.message}</span>}
